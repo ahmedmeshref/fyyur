@@ -57,8 +57,9 @@ class Venue(db.Model):
     city = db.Column(db.String(120), nullable=False)
     state = db.Column(db.String(120), nullable=False)
     address = db.Column(db.String(120), nullable=False)
-    phone = db.Column(db.String(120), nullable=False)
-    image_link = db.Column(db.String(500), nullable=False)
+    phone = db.Column(db.String(120))
+    image_link = db.Column(db.String(500))
+    genres = db.Column(db.String(120), nullable=False)
     facebook_link = db.Column(db.String(120), nullable=False)
     # create a relationship between venues and artists. To get artists that performed in a venue run (
     # venue_obj.artists). To get all venues which an artist performed in run (artist_obj.venues)
@@ -76,9 +77,9 @@ class Artist(db.Model):
     name = db.Column(db.String, nullable=False)
     city = db.Column(db.String(120), nullable=False)
     state = db.Column(db.String(120), nullable=False)
-    phone = db.Column(db.String(120), nullable=False)
+    phone = db.Column(db.String(120))
+    image_link = db.Column(db.String(500))
     genres = db.Column(db.String(120), nullable=False)
-    image_link = db.Column(db.String(500), nullable=False)
     facebook_link = db.Column(db.String(120), nullable=False)
 
     def __repr__(self):

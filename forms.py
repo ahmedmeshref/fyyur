@@ -6,10 +6,10 @@ from wtforms.validators import DataRequired, AnyOf, URL, Length
 
 class ShowForm(Form):
     artist_id = StringField(
-        'artist_id'
+        'artist_id', validators=[DataRequired()]
     )
     venue_id = StringField(
-        'venue_id'
+        'venue_id', validators=[DataRequired()]
     )
     start_time = DateTimeField(
         'start_time',
@@ -20,10 +20,10 @@ class ShowForm(Form):
 
 class VenueForm(Form):
     name = StringField(
-        'name', validators=[DataRequired(), Length(min=2, max=300)]
+        'name', validators=[DataRequired()]
     )
     city = StringField(
-        'city', validators=[DataRequired(), Length(min=2, max=120)]
+        'city', validators=[DataRequired()]
     )
     state = SelectField(
         'state', validators=[DataRequired()],
@@ -82,7 +82,7 @@ class VenueForm(Form):
         ]
     )
     address = StringField(
-        'address', validators=[DataRequired(), Length(min=2, max=120)]
+        'address', validators=[DataRequired()]
     )
     phone = StringField(
         'phone'
@@ -116,7 +116,7 @@ class VenueForm(Form):
         ]
     )
     facebook_link = StringField(
-        'facebook_link', validators=[DataRequired(), URL()]
+        'facebook_link', validators=[URL()]
     )
 
 
@@ -184,14 +184,12 @@ class ArtistForm(Form):
         ]
     )
     phone = StringField(
-        # TODO implement validation logic for state
         'phone'
     )
     image_link = StringField(
         'image_link'
     )
     genres = SelectMultipleField(
-        # TODO implement enum restriction
         'genres', validators=[DataRequired()],
         choices=[
             ('Alternative', 'Alternative'),
@@ -216,7 +214,6 @@ class ArtistForm(Form):
         ]
     )
     facebook_link = StringField(
-        # TODO implement enum restriction
         'facebook_link', validators=[URL()]
     )
 

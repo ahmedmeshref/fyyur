@@ -2,16 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8d70787b-3da6-40d7-8502-35cfe37f3906" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/forms/new_artist.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/forms/new_artist.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/forms/new_venue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/forms/new_venue.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -27,7 +34,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="TERMINAL_CUSTOM_COMMANDS_GOT_IT" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../test" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../Flask/ALU_Blog" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -48,7 +55,7 @@
       <option name="presentableId" value="Default" />
       <updated>1593558101967</updated>
       <workItem from="1593558107608" duration="498000" />
-      <workItem from="1593558642611" duration="8057000" />
+      <workItem from="1593558642611" duration="13932000" />
     </task>
     <servers />
   </component>
@@ -60,13 +67,17 @@
       <screen x="0" y="0" width="1500" height="1000" />
     </state>
     <state x="202" y="145" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1500.1000@0.0.1500.1000" timestamp="1593558535576" />
-    <state x="479" y="196" key="FileChooserDialogImpl" timestamp="1593563277622">
+    <state x="479" y="196" key="FileChooserDialogImpl" timestamp="1593573527274">
       <screen x="0" y="0" width="1500" height="1000" />
     </state>
-    <state x="479" y="196" key="FileChooserDialogImpl/0.0.1500.1000@0.0.1500.1000" timestamp="1593563277622" />
+    <state x="479" y="196" key="FileChooserDialogImpl/0.0.1500.1000@0.0.1500.1000" timestamp="1593573527274" />
     <state x="128" y="58" key="SettingsEditor" timestamp="1593558821518">
       <screen x="0" y="0" width="1500" height="1000" />
     </state>
     <state x="128" y="58" key="SettingsEditor/0.0.1500.1000@0.0.1500.1000" timestamp="1593558821518" />
+    <state x="329" y="0" width="840" height="1034" key="search.everywhere.popup" timestamp="1593577813726">
+      <screen x="0" y="0" width="1500" height="1000" />
+    </state>
+    <state x="329" y="0" width="840" height="1034" key="search.everywhere.popup/0.0.1500.1000@0.0.1500.1000" timestamp="1593577813726" />
   </component>
 </project>

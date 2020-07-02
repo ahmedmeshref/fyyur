@@ -17,4 +17,7 @@ def create_instance(model, form):
     seeking_venue = request.form.get('seeking_venue')
     if seeking_venue:
         new_ins.seeking_venue = seeking_venue
+    website = request.form.get('website')
+    if website:
+        new_ins.website = website
     return new_ins

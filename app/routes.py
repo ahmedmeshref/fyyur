@@ -5,7 +5,7 @@ import dateutil.parser
 import babel
 from flask import render_template, request, flash, redirect, url_for, abort
 from app.forms import *
-from app.utils import create_instance
+from app.utils import *
 from datetime import datetime
 
 
@@ -246,9 +246,8 @@ def search_artists_receiver():
 
 @app.route('/artists/<int:artist_id>', methods=['GET'])
 def show_artist(artist_id):
-    # get artist -> Time Complexity: O(n) where n is the total number of artists
-    artist = db.session.query(Artist).get(artist_id)
     # verify that a given id maps to an existing artist
+    artist = existingInstance(Artist, artist_id)
     if not artist:
         abort(404)
     artist.genres = artist.genres.split(",")
@@ -273,34 +272,31 @@ def show_artist(artist_id):
 
 #  Update
 #  ----------------------------------------------------------------
-@app.route('/artists/<int:artist_id>/edit', methods=['GET'])
+@app.route('/artists/<int:artist_id>/edit', methods=['GET', 'POST'])
 def edit_artist(artist_id):
     form = ArtistForm()
-    artist = db.session.query(Artist).get(artist_id)
+    # verify that the given id maps to an existing artist
+    artist = existingInstance(Artist, artist_id)
+    if request.method == 'POST' and form.validate_on_submit():
+        error = False
+        try:
+            # create_instance(Object, form) creates an artist instance of Artist
+            artist = update_instance(artist, form)
+            db.session.commit()
+        except:
+            db.session.rollback()
+            error = True
+        finally:
+            db.session.close()
+        if not error:
+            # on successful db update, flash success
+            flash('Artist ' + request.form['name'] + ' was updated successfully!')
+            return redirect(url_for('show_artist', artist_id=artist_id))
+        # on error db update, flash success
+        flash(f'server error occurred, {request.form["name"]} could was not updated')
 
-    #     {
-    #     "id": 4,
-    #     "name": "Guns N Petals",
-    #     "genres": ["Rock n Roll"],
-    #     "city": "San Francisco",
-    #     "state": "CA",
-    #     "phone": "326-123-5000",
-    #     "website": "https://www.gunsnpetalsband.com",
-    #     "facebook_link": "https://www.facebook.com/GunsNPetals",
-    #     "seeking_venue": True,
-    #     "seeking_description": "Looking for shows to perform at in the San Francisco Bay Area!",
-    #     "image_link": "https://images.unsplash.com/photo-1549213783-8284d0336c4f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80"
-    # }
-    # TODO: populate form with fields from artist with ID <artist_id>
-    return render_template('forms/edit_artist.html', form=form, artist=artist)
-
-
-@app.route('/artists/<int:artist_id>/edit', methods=['POST'])
-def edit_artist_submission(artist_id):
-    # TODO: take values from the form submitted, and update existing
-    # artist record with ID <artist_id> using the new attributes
-
-    return redirect(url_for('show_artist', artist_id=artist_id))
+    data = build_object(artist)
+    return render_template('forms/edit_artist.html', form=form, artist=data)
 
 
 @app.route('/venues/<int:venue_id>/edit', methods=['GET'])
@@ -345,7 +341,7 @@ def create_artist_submission():
     form = ArtistForm()
     error = False
     try:
-        # create_instance(Object, form) and create a artist instance of Artist
+        # create_instance(Object, form) creates an artist instance of Artist
         artist = create_instance(Artist, form)
         db.session.add(artist)
         db.session.commit()

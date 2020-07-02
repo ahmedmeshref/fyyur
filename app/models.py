@@ -53,6 +53,7 @@ class Artist(db.Model):
     image_link = db.Column(db.String(500))
     genres = db.Column(db.String(120), nullable=False)
     facebook_link = db.Column(db.String(120))
+    seeking_venue = db.Column(db.Boolean, nullable=False, default=True)
 
     def __repr__(self):
         return f"Artist <{self.id}, {self.name}, {self.city}, {self.state}, {self.phone}, {self.genres} " \

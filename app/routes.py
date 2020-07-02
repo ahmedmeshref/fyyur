@@ -220,21 +220,26 @@ def artists():
     return render_template('pages/artists.html', artists=data)
 
 
+@app.route('/artists/search/<search_term>', methods=['GET'])
+def search_artists(search_term):
+    """
+    search_artists gets any GET request for an artist search
+    :param search_term: String
+    :return: template -> search_artists.html
+    """
+    response = db.session.query(Artist.id, Artist.name).filter(Artist.name.ilike(f'%{search_term}%')).all()
+    return render_template('pages/search_artists.html', results=response, search_term=search_term,
+                           num_res=len(response))
+
+
 @app.route('/artists/search', methods=['POST'])
-def search_artists():
-    # TODO: implement search on artists with partial string search. Ensure it is case-insensitive.
-    # seach for "A" should return "Guns N Petals", "Matt Quevado", and "The Wild Sax Band".
-    # search for "band" should return "The Wild Sax Band".
-    response = {
-        "count": 1,
-        "data": [{
-            "id": 4,
-            "name": "Guns N Petals",
-            "num_upcoming_shows": 0,
-        }]
-    }
-    return render_template('pages/search_artists.html', results=response,
-                           search_term=request.form.get('search_term', ''))
+def search_artists_receiver():
+    """
+    search_artists_receiver receives any POST request for searching an artist
+    :return: redirects to search_artists function
+    """
+    search_term = request.form.get('search_term', '')
+    return redirect(url_for('search_artists', search_term=search_term))
 
 
 @app.route('/artists/<int:artist_id>')

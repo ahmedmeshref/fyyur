@@ -23,15 +23,17 @@
           href="{{ url_for('static', filename='ico/apple-touch-icon-144-precomposed.png') }}">
     <link rel="apple-touch-icon-precomposed" sizes="114x114"
           href="{{ url_for('static', filename='ico/apple-touch-icon-114-precomposed.png') }}">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ url_for('static', filename='ico/apple-touch-icon-72-precomposed.png') }}">
-    <link rel="apple-touch-icon-precomposed" href="{{ url_for('static', filename='ico/apple-touch-icon-57-precomposed.png') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72"
+          href="{{ url_for('static', filename='ico/apple-touch-icon-72-precomposed.png') }}">
+    <link rel="apple-touch-icon-precomposed"
+          href="{{ url_for('static', filename='ico/apple-touch-icon-57-precomposed.png') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='ico/favicon.png') }}">
     <!-- /favicons -->
 
     <!-- scripts -->
     <script src="https://kit.fontawesome.com/af77674fe5.js"></script>
     <script src="{{ url_for('static', filename='js/libs/modernizr-2.8.2.min.js') }}"></script>
-    <script src= "{{ url_for('static', filename='js/libs/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/libs/moment.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}" defer></script>
     <!--[if lt IE 9]>
     <script src="{{ url_for('static', filename='js/libs/respond-1.4.2.min.js') }}"></script><![endif]-->
@@ -99,14 +101,14 @@
     <main id="content" role="main" class="container">
 
         {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                <div class="alert alert-block alert-info fade in">
-                    <a class="close" data-dismiss="alert">&times;</a>
-                    {{ message }}
-                </div>
-                {% endfor %}
-            {% endif %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-block alert-info fade in">
+            <a class="close" data-dismiss="alert">&times;</a>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
         {% endwith %}
 
         {% block content %}{% endblock %}

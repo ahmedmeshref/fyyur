@@ -14,4 +14,7 @@ def create_instance(model, form):
     genres = request.form.getlist('genres')
     new_ins.genres = ",".join(genres)
     new_ins.facebook_link = request.form['facebook_link']
+    seeking_venue = request.form.get('seeking_venue')
+    if seeking_venue:
+        new_ins.seeking_venue = seeking_venue
     return new_ins

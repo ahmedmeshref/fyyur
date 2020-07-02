@@ -1,21 +1,40 @@
 from datetime import datetime
 from flask_wtf import Form
-from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField
-from wtforms.validators import DataRequired, AnyOf, URL, Length
+from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField, IntegerField
+from wtforms.validators import DataRequired, AnyOf, URL, ValidationError
+from app import Artist, Venue, db
 
 
 class ShowForm(Form):
-    artist_id = StringField(
+    artist_id = IntegerField(
         'artist_id', validators=[DataRequired()]
     )
-    venue_id = StringField(
+    venue_id = IntegerField(
         'venue_id', validators=[DataRequired()]
     )
     start_time = DateTimeField(
         'start_time',
         validators=[DataRequired()],
-        default=datetime.today()
+        default=datetime.utcnow()
     )
+
+    # validate existing artist_id and venue_id
+    def validate_artist_id(self, artist_id):
+        artist_exist = db.session.query(Artist).get(artist_id.data)
+        if not artist_exist:
+            raise ValidationError("Artist ID doesn't exist. ID can be found on the Artist's Page")
+
+    def validate_venue_id(self, venue_id):
+        venue_exist = db.session.query(Venue).get(venue_id.data)
+        if not venue_exist:
+            raise ValidationError("Venue ID doesn't exist. ID can be found on the Venue's Page")
+
+    # validate the given date
+    def validate_start_time(self, start_time):
+        valid_start = start_time.data >= datetime.utcnow()
+        if not valid_start:
+            raise ValidationError(f"invalid Start time. Please use a date after "
+                                  f"{datetime.utcnow().replace(second=0, microsecond=0)}")
 
 
 class VenueForm(Form):

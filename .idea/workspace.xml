@@ -4,6 +4,10 @@
     <list default="true" id="8d70787b-3da6-40d7-8502-35cfe37f3906" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/forms/new_show.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/forms/new_show.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/layouts/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layouts/main.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,6 +58,8 @@
       <updated>1593558101967</updated>
       <workItem from="1593558107608" duration="498000" />
       <workItem from="1593558642611" duration="14477000" />
+      <workItem from="1593632772862" duration="25000" />
+      <workItem from="1593643390836" duration="6111000" />
     </task>
     <servers />
   </component>
@@ -61,14 +67,14 @@
     <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="202" y="145" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1593558535576">
+    <state x="202" y="145" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1593646441725">
       <screen x="0" y="0" width="1500" height="1000" />
     </state>
-    <state x="202" y="145" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1500.1000@0.0.1500.1000" timestamp="1593558535576" />
-    <state x="479" y="196" key="FileChooserDialogImpl" timestamp="1593573527274">
+    <state x="202" y="145" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1500.1000@0.0.1500.1000" timestamp="1593646441725" />
+    <state x="479" y="196" key="FileChooserDialogImpl" timestamp="1593643722807">
       <screen x="0" y="0" width="1500" height="1000" />
     </state>
-    <state x="479" y="196" key="FileChooserDialogImpl/0.0.1500.1000@0.0.1500.1000" timestamp="1593573527274" />
+    <state x="479" y="196" key="FileChooserDialogImpl/0.0.1500.1000@0.0.1500.1000" timestamp="1593643722807" />
     <state x="128" y="58" key="SettingsEditor" timestamp="1593558821518">
       <screen x="0" y="0" width="1500" height="1000" />
     </state>

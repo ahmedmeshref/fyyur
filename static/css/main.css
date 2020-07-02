@@ -209,3 +209,11 @@ h2.monospace {
 .subtitle {
   opacity: 0.5;
 }
+.invalid-feedback {
+  font-size: 10px;
+  color: #ff0033;
+  margin-left: 2px;
+}
+.is-invalid{
+  border-color: #ff0033;
+}

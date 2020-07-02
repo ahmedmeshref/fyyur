@@ -15,3 +15,7 @@ def create_instance(model, form):
     new_ins.genres = ",".join(genres)
     new_ins.facebook_link = request.form['facebook_link']
     return new_ins
+
+
+#
+# def create_show_instance(model, form):

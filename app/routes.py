@@ -8,7 +8,6 @@ from app.forms import *
 from app.utils import create_instance
 
 
-
 # ----------------------------------------------------------------------------#
 # Filters.
 # ----------------------------------------------------------------------------#
@@ -210,21 +209,14 @@ def delete_venue(venue_id):
     return None
 
 
+#  --------------------------------------------------------------------------------------------------------------------
 #  Artists
-#  ----------------------------------------------------------------
+#  --------------------------------------------------------------------------------------------------------------------
 @app.route('/artists')
 def artists():
-    # TODO: replace with real data returned from querying the database
-    data = [{
-        "id": 4,
-        "name": "Guns N Petals",
-    }, {
-        "id": 5,
-        "name": "Matt Quevedo",
-    }, {
-        "id": 6,
-        "name": "The Wild Sax Band",
-    }]
+    data = db.session.query(Artist.id, Artist.name).all()
+    # TODO: Order the artists based on the number of the shows for each
+    # data.sort(key=lambda artist: db.session.query(Show).filter(Show.artist_id == artist.id).count())
     return render_template('pages/artists.html', artists=data)
 
 

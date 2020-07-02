@@ -2,13 +2,58 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8d70787b-3da6-40d7-8502-35cfe37f3906" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/routes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/img/.gitkeep" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/forms/new_show.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/forms/new_show.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/layouts/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/layouts/main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/bootstrap-theme.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/bootstrap-theme.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/bootstrap-theme.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/bootstrap-theme.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/bootstrap.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/bootstrap.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/bootstrap.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/bootstrap.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/bootstrap.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/bootstrap.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/layout.forms.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/layout.forms.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/layout.main.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/layout.main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/main.quickfix.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/main.quickfix.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/main.responsive.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/main.responsive.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/fonts/FontAwesome.otf" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/fonts/FontAwesome.otf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/fonts/fontawesome-webfont.eot" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/fonts/fontawesome-webfont.eot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/fonts/fontawesome-webfont.svg" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/fonts/fontawesome-webfont.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/fonts/fontawesome-webfont.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/fonts/fontawesome-webfont.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/fonts/fontawesome-webfont.woff" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/fonts/fontawesome-webfont.woff" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/img/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/img/front-splash.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/img/front-splash.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/libs/bootstrap-3.1.1.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/js/libs/bootstrap-3.1.1.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/libs/jquery-1.11.1.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/js/libs/jquery-1.11.1.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/libs/jquery-1.11.1.min.map" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/js/libs/jquery-1.11.1.min.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/libs/modernizr-2.8.2.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/js/libs/modernizr-2.8.2.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/libs/moment.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/js/libs/moment.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/libs/respond-1.4.2.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/js/libs/respond-1.4.2.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/plugins.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/js/plugins.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/js/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/errors/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/errors/404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/errors/500.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/errors/500.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/forms/edit_artist.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/forms/edit_artist.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/forms/edit_venue.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/forms/edit_venue.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/forms/new_artist.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/forms/new_artist.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/forms/new_show.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/forms/new_show.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/forms/new_venue.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/forms/new_venue.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/layouts/form.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/layouts/form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/layouts/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/layouts/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/pages/artists.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/pages/artists.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/pages/home.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/pages/home.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/pages/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/pages/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/pages/search_artists.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/pages/search_artists.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/pages/search_venues.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/pages/search_venues.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/pages/show.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/pages/show.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/pages/show_artist.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/pages/show_artist.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/pages/show_venue.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/pages/show_venue.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/pages/shows.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/pages/shows.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/pages/venues.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/pages/venues.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +81,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="TERMINAL_CUSTOM_COMMANDS_GOT_IT" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../Flask/ALU_Blog" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../to-do-app" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -45,6 +90,12 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\coding\web\udacity\lesson_1\fyyur" />
+      <recent name="D:\coding\web\udacity\lesson_1\fyyur\app" />
+    </key>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -59,7 +110,7 @@
       <workItem from="1593558107608" duration="498000" />
       <workItem from="1593558642611" duration="14477000" />
       <workItem from="1593632772862" duration="25000" />
-      <workItem from="1593643390836" duration="6111000" />
+      <workItem from="1593643390836" duration="9968000" />
     </task>
     <servers />
   </component>
@@ -71,10 +122,10 @@
       <screen x="0" y="0" width="1500" height="1000" />
     </state>
     <state x="202" y="145" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1500.1000@0.0.1500.1000" timestamp="1593646441725" />
-    <state x="479" y="196" key="FileChooserDialogImpl" timestamp="1593643722807">
+    <state x="479" y="196" key="FileChooserDialogImpl" timestamp="1593652876708">
       <screen x="0" y="0" width="1500" height="1000" />
     </state>
-    <state x="479" y="196" key="FileChooserDialogImpl/0.0.1500.1000@0.0.1500.1000" timestamp="1593643722807" />
+    <state x="479" y="196" key="FileChooserDialogImpl/0.0.1500.1000@0.0.1500.1000" timestamp="1593652876708" />
     <state x="128" y="58" key="SettingsEditor" timestamp="1593558821518">
       <screen x="0" y="0" width="1500" height="1000" />
     </state>

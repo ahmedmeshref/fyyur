@@ -201,6 +201,34 @@ def create_venue_submission():
     return redirect(url_for('index'))
 
 
+@app.route('/venues/<int:venue_id>/edit', methods=['GET'])
+def edit_venue(venue_id):
+    form = VenueForm()
+    venue = {
+        "id": 1,
+        "name": "The Musical Hop",
+        "genres": ["Jazz", "Reggae", "Swing", "Classical", "Folk"],
+        "address": "1015 Folsom Street",
+        "city": "San Francisco",
+        "state": "CA",
+        "phone": "123-123-1234",
+        "website": "https://www.themusicalhop.com",
+        "facebook_link": "https://www.facebook.com/TheMusicalHop",
+        "seeking_talent": True,
+        "seeking_description": "We are on the lookout for a local artist to play every two weeks. Please call us.",
+        "image_link": "https://images.unsplash.com/photo-1543900694-133f37abaaa5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"
+    }
+    # TODO: populate form with values from venue with ID <venue_id>
+    return render_template('forms/edit_venue.html', form=form, venue=venue)
+
+
+@app.route('/venues/<int:venue_id>/edit', methods=['POST'])
+def edit_venue_submission(venue_id):
+    # TODO: take values from the form submitted, and update existing
+    # venue record with ID <venue_id> using the new attributes
+    return redirect(url_for('show_venue', venue_id=venue_id))
+
+
 @app.route('/venues/<venue_id>', methods=['DELETE'])
 def delete_venue(venue_id):
     # TODO: Complete this endpoint for taking a venue_id, and using
@@ -216,7 +244,7 @@ def delete_venue(venue_id):
 #  --------------------------------------------------------------------------------------------------------------------
 @app.route('/artists')
 def artists():
-    data = db.session.query(Artist.id, Artist.name).all()
+    data = db.session.query(Artist.id, Artist.name).order_by(Artist.id).all()
     # TODO: Order the artists based on the number of the shows for each
     # data.sort(key=lambda artist: db.session.query(Show).filter(Show.artist_id == artist.id).count())
     return render_template('pages/artists.html', artists=data)
@@ -246,10 +274,9 @@ def search_artists_receiver():
 
 @app.route('/artists/<int:artist_id>', methods=['GET'])
 def show_artist(artist_id):
-    # verify that a given id maps to an existing artist
+    # verify that the given id maps to an existing artist
     artist = existingInstance(Artist, artist_id)
-    if not artist:
-        abort(404)
+
     artist.genres = artist.genres.split(",")
     # getting the artist's shows -> Time Complexity: O(m) where m is the number of shows
     artist_shows = artist.shows
@@ -297,34 +324,6 @@ def edit_artist(artist_id):
 
     data = build_object(artist)
     return render_template('forms/edit_artist.html', form=form, artist=data)
-
-
-@app.route('/venues/<int:venue_id>/edit', methods=['GET'])
-def edit_venue(venue_id):
-    form = VenueForm()
-    venue = {
-        "id": 1,
-        "name": "The Musical Hop",
-        "genres": ["Jazz", "Reggae", "Swing", "Classical", "Folk"],
-        "address": "1015 Folsom Street",
-        "city": "San Francisco",
-        "state": "CA",
-        "phone": "123-123-1234",
-        "website": "https://www.themusicalhop.com",
-        "facebook_link": "https://www.facebook.com/TheMusicalHop",
-        "seeking_talent": True,
-        "seeking_description": "We are on the lookout for a local artist to play every two weeks. Please call us.",
-        "image_link": "https://images.unsplash.com/photo-1543900694-133f37abaaa5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"
-    }
-    # TODO: populate form with values from venue with ID <venue_id>
-    return render_template('forms/edit_venue.html', form=form, venue=venue)
-
-
-@app.route('/venues/<int:venue_id>/edit', methods=['POST'])
-def edit_venue_submission(venue_id):
-    # TODO: take values from the form submitted, and update existing
-    # venue record with ID <venue_id> using the new attributes
-    return redirect(url_for('show_venue', venue_id=venue_id))
 
 
 #  Create Artist

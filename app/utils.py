@@ -35,7 +35,9 @@ def update_instance(existing_ins, form):
     existing_ins.city = request.form['city']
     existing_ins.state = request.form['state']
     existing_ins.phone = request.form['phone']
-    existing_ins.image_link = request.form.get('image_link')
+    image_link = request.form.get('image_link')
+    if image_link:
+        existing_ins.image_link = image_link
     genres = request.form.getlist('genres')
     existing_ins.genres = ",".join(genres)
     existing_ins.facebook_link = request.form['facebook_link']
@@ -61,7 +63,7 @@ def build_object(existing_artist):
     obj = {
         "id": existing_artist.id,
         "name": existing_artist.name,
-        "genres": existing_artist.genres,
+        "genres": existing_artist.genres.split(','),
         "city": existing_artist.city,
         "state": existing_artist.state,
         "phone": existing_artist.phone,
@@ -73,19 +75,6 @@ def build_object(existing_artist):
     }
 
     return obj
-
-    # "id": 4,
-    #     "name": "Guns N Petals",
-    #     "genres": ["Rock n Roll"],
-    #     "city": "San Francisco",
-    #     "state": "CA",
-    #     "phone": "326-123-5000",
-    #     "website": "https://www.gunsnpetalsband.com",
-    #     "facebook_link": "https://www.facebook.com/GunsNPetals",
-    #     "seeking_venue": True,
-    #     "seeking_description": "Looking for shows to perform at in the San Francisco Bay Area!",
-    #     "image_link": "https://images.unsplash.com/photo-1549213783-8284d0336c4f?ixlib=rb-1.2.1&ixid=eyJ
-    #     hcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80"
 
 
 def existingInstance(object, id):

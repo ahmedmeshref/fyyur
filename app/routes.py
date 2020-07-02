@@ -13,10 +13,11 @@ from datetime import datetime
 # Filters.
 # ----------------------------------------------------------------------------#
 
-def format_datetime(value, format='medium'):
-    date = dateutil.parser.parse(value)
+def format_datetime(date, format='medium'):
+    if type(date) == str:
+        date = dateutil.parser.parse(date)
     if format == 'full':
-        format = "EEEE MMMM, d, y 'at' h:mma"
+        format = "yyyy.MM.dd G 'at' HH:mm:ss"
     elif format == 'medium':
         format = "EE MM, dd, y h:mma"
     return babel.dates.format_datetime(date, format)

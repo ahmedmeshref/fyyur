@@ -12,4 +12,6 @@ class Config:
     # Connect to the database.
     SQLALCHEMY_DATABASE_URI = os.environ.get('POSTGRESQL') + "fyyur"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ECHO = True
+
 

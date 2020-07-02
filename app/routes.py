@@ -6,6 +6,7 @@ import babel
 from flask import render_template, request, flash, redirect, url_for, abort
 from app.forms import *
 from app.utils import create_instance
+from datetime import datetime
 
 
 # ----------------------------------------------------------------------------#
@@ -242,38 +243,31 @@ def search_artists_receiver():
     return redirect(url_for('search_artists', search_term=search_term))
 
 
-@app.route('/artists/<int:artist_id>')
+@app.route('/artists/<int:artist_id>', methods=['GET'])
 def show_artist(artist_id):
-    # shows the venue page with the given venue_id
-    # TODO: replace with real venue data from the venues table, using venue_id
-    data1 = {
-        "id": 4,
-        "name": "Guns N Petals",
-        "genres": ["Rock n Roll"],
-        "city": "San Francisco",
-        "state": "CA",
-        "phone": "326-123-5000",
-        "website": "https://www.gunsnpetalsband.com",
-        "facebook_link": "https://www.facebook.com/GunsNPetals",
-        "seeking_venue": True,
-        "seeking_description": "Looking for shows to perform at in the San Francisco Bay Area!",
-        "image_link": "https://images.unsplash.com/photo-1549213783-8284d0336c4f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
-        "past_shows": [{
-            "venue_id": 1,
-            "venue_name": "The Musical Hop",
-            "venue_image_link": "https://images.unsplash.com/photo-1543900694-133f37abaaa5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-            "start_time": "2019-05-21T21:30:00.000Z"
-        }],
-        "upcoming_shows": [],
-        "past_shows_count": 1,
-        "upcoming_shows_count": 0,
-    }
+    # get artist -> Time Complexity: O(n) where n is the total number of artists
     artist = db.session.query(Artist).get(artist_id)
+    # verify that a given id maps to an existing artist
     if not artist:
         abort(404)
     artist.genres = artist.genres.split(",")
-    return str(artist)
-    # return render_template('pages/show_artist.html', artist=data)
+    # getting the artist's shows -> Time Complexity: O(m) where m is the number of shows
+    artist_shows = artist.shows
+    # classifying shows based on the start_time -> Time Complexity: O(m)
+    upcoming_shows = []
+    past_shows = []
+    for show in artist_shows:
+        up_coming = datetime.utcnow() <= show.date
+        if up_coming:
+            upcoming_shows.append(show)
+        else:
+            past_shows.append(show)
+    artist.upcoming_shows = upcoming_shows
+    artist.upcoming_shows_count = len(upcoming_shows)
+    artist.past_shows = past_shows
+    artist.past_shows_count = len(past_shows)
+
+    return render_template('pages/show_artist.html', artist=artist)
 
 
 #  Update

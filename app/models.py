@@ -9,7 +9,7 @@ class Show(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     venue_id = db.Column(db.Integer, db.ForeignKey('venues.id'), nullable=False)
     artist_id = db.Column(db.Integer, db.ForeignKey('artists.id'), nullable=False)
-    date = db.Column(db.DateTime, nullable=False)
+    start_time = db.Column(db.DateTime, nullable=False)
     # create a relationship between Venue and Show. To get the venue of a show run (show_obj.venue).
     # To get all shows of a venue (venue_obj.shows)
     venue = db.relationship('Venue',
@@ -20,7 +20,10 @@ class Show(db.Model):
                              backref=db.backref('shows', lazy='select', cascade='all, delete-orphan'))
 
     def __repr__(self):
-        return f'Show <{self.id}, {self.venue_id}, {self.artist_id}, {self.date}>'
+        return f'Show <{self.id}, {self.venue_id}, {self.artist_id}, {self.start_time}>'
+
+    def __dir__(self):
+        return ['venue_id', 'artist_id', 'start_time']
 
 
 class Venue(db.Model):

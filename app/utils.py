@@ -2,39 +2,6 @@ from flask import request, abort
 from app import db
 
 
-# def create_instance(model, form):
-#     """
-#     :param model: Venue or Artist class
-#     :param form: Form instance
-#     :return: Instance of the the model
-#     """
-#     new_ins = model()
-#     new_ins.name = request.form['name']
-#     new_ins.city = request.form['city']
-#     new_ins.state = request.form['state']
-#     new_ins.phone = request.form['phone']
-#     new_ins.image_link = request.form.get('image_link')
-#     genres = request.form.getlist('genres')
-#     new_ins.genres = ",".join(genres)
-#     new_ins.facebook_link = request.form['facebook_link']
-#     seeking_description = request.form.get('seeking_description')
-#     if seeking_description:
-#         new_ins.website = seeking_description
-#     website = request.form.get('website')
-#     if website:
-#         new_ins.website = website
-#     seeking_venue = request.form.get('seeking_venue')
-#     if seeking_venue:
-#         new_ins.seeking_venue = seeking_venue
-#     address = request.form.get('address')
-#     if address:
-#         new_ins.address = address
-#     seeking_talent = request.form.get('seeking_talent')
-#     if seeking_talent:
-#         new_ins.seeking_talent = seeking_talent
-#     return new_ins
-
-
 def update_instance(instance_var, form, attrs):
     for attr in attrs:
         if attr == 'genres':
@@ -42,7 +9,7 @@ def update_instance(instance_var, form, attrs):
         else:
             attr_val = request.form.get(attr)
         # Update attributes with new updated value if a new value is given
-        if attr_val and getattr(instance_var, attr) != attr_val:
+        if attr_val:
             setattr(instance_var, attr, attr_val)
     return instance_var
 

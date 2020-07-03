@@ -129,9 +129,9 @@ def show_venue(venue_id):
     past_shows = []
     upcoming_shows = []
     for show in venue_shows:
-        temp = {"artist_id": show.artist_id, "start_time": show.date, "artist_name": show.artist.name,
+        temp = {"artist_id": show.artist_id, "start_time": show.start_time, "artist_name": show.artist.name,
                 "artist_image_link": show.artist.image_link}
-        upcoming = show.date >= datetime.utcnow()
+        upcoming = show.start_time >= datetime.utcnow()
         if upcoming:
             upcoming_shows.append(temp)
         else:
@@ -266,7 +266,7 @@ def show_artist(artist_id):
     upcoming_shows = []
     past_shows = []
     for show in artist_shows:
-        up_coming = datetime.utcnow() <= show.date
+        up_coming = datetime.utcnow() <= show.start_time
         if up_coming:
             upcoming_shows.append(show)
         else:
@@ -369,23 +369,26 @@ def create_shows():
 @app.route('/shows/create', methods=['POST'])
 def create_show_submission():
     # called to create new shows in the db, upon submitting new show listing form
-    # TODO: insert form data as a new Show record in the db, instead
     form = ShowForm()
-    error = False
     if not form.validate_on_submit():
         return render_template('forms/new_show.html', form=form)
-    try:
-        show = Show()
-        show.artist_id = request.form.get("artist_id")
-        show.venue_id = request.form.get("venue_id")
-        show.date = request.form.get("start_time")
-        db.session.add(show)
-        db.session.commit()
-    except:
-        error = True
-        db.session.rollback()
-    finally:
-        db.session.close()
+
+    error = False
+    # try:
+    show = Show()
+    # get all attributes of the show instance.
+    attributes = dir(show)
+    print(attributes)
+    # Update the values of the show's attributes with the given values from the form ->
+    # update_instance(instance_var, form_instance, [attributes]).
+    show = update_instance(show, form, attributes)
+    db.session.add(show)
+    db.session.commit()
+    # except:
+    #     error = True
+    #     db.session.rollback()
+    # finally:
+    #     db.session.close()
     if error:
         flash('An error occurred. Show could not be listed.')
         return render_template('forms/new_show.html', form=form)

@@ -3,6 +3,11 @@ from app import db
 
 
 def create_instance(model, form):
+    """
+    :param model: Venue or Artist class
+    :param form: Form instance
+    :return: Instance of the the model
+    """
     new_ins = model()
     new_ins.name = request.form['name']
     new_ins.city = request.form['city']
@@ -76,9 +81,3 @@ def build_object(existing_artist):
 
     return obj
 
-
-def existingInstance(object, id):
-    instance = db.session.query(object).get(id)
-    if not instance:
-        abort(404)
-    return instance

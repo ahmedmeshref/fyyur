@@ -41,8 +41,8 @@ def update_instance(instance_var, form, attrs):
             attr_val = ','.join(request.form.getlist(attr))
         else:
             attr_val = request.form.get(attr)
-        # Update attributes with new updated value
-        if getattr(instance_var, attr) != attr_val:
+        # Update attributes with new updated value if a new value is given
+        if attr_val and getattr(instance_var, attr) != attr_val:
             setattr(instance_var, attr, attr_val)
     return instance_var
 

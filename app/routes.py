@@ -36,13 +36,14 @@ def index():
     return render_template('pages/home.html')
 
 
+#  --------------------------------------------------------------------------------------------------------------------
 #  Venues
-#  ----------------------------------------------------------------
+#  --------------------------------------------------------------------------------------------------------------------
 
 @app.route('/venues/')
 def venues():
-    # query all venues
-    venues = db.session.query(Venue.id, Venue.name, Venue.city, Venue.state).all()
+    # query all venues ordered by their id's
+    venues = db.session.query(Venue.id, Venue.name, Venue.city, Venue.state).order_by(Venue.id).all()
     # distribute venues to areas where areas -> {("City_1", "State_1"): [list_of_venues], ...}
     areas = {}
     for venue in venues:
@@ -52,6 +53,47 @@ def venues():
 
     return render_template('pages/venues.html', areas=areas)
 
+
+#  Create Venue
+
+@app.route('/venues/create', methods=['GET'])
+def create_venue_form():
+    form = VenueForm()
+    return render_template('forms/new_venue.html', form=form)
+
+
+@app.route('/venues/create', methods=['POST'])
+def create_venue_submission():
+    form = VenueForm()
+    # if form is not valid, flash error.
+    if not form.validate_on_submit():
+        flash(f'Please insert valid data!')
+        return render_template('forms/new_venue.html', form=form)
+
+    error = False
+    try:
+        venue = Venue()
+        # get attributes of venue instance.
+        attributes = dir(venue)
+        # Update the values of the venue attributes with the given values ->
+        # update_instance(venue_instance, form_instance, [attributes]).
+        venue = update_instance(venue, form, attributes)
+        db.session.add(venue)
+        db.session.commit()
+    except:
+        db.session.rollback()
+        error = True
+    finally:
+        db.session.close()
+    if error:
+        flash(f'Error, {request.form["name"]} could not be listed.')
+        return render_template('forms/new_venue.html', form=form)
+    # on successful db insert, flash success
+    flash(f'Venue {request.form["name"]} was successfully listed!')
+    return redirect(url_for('index'))
+
+
+# search venue
 
 @app.route('/venues/search/<search_term>', methods=['GET'])
 def search_venues(search_term):
@@ -103,39 +145,7 @@ def show_venue(venue_id):
     return render_template('pages/show_venue.html', venue=venue)
 
 
-#  Create Venue
-#  ----------------------------------------------------------------
-
-@app.route('/venues/create', methods=['GET'])
-def create_venue_form():
-    form = VenueForm()
-    return render_template('forms/new_venue.html', form=form)
-
-
-@app.route('/venues/create', methods=['POST'])
-def create_venue_submission():
-    error = False
-    form = VenueForm()
-    if not form.validate_on_submit():
-        return render_template('forms/new_venue.html', form=form)
-    # if form validation is True, add new venue to db
-    try:
-        # create_instance(Object, form) is a utils function that creates a venue instance of Venue.
-        venue = create_instance(Venue, form)
-        db.session.add(venue)
-        db.session.commit()
-    except:
-        db.session.rollback()
-        error = True
-    finally:
-        db.session.close()
-    if error:
-        flash(f'Error, {request.form["name"]} could not be listed.')
-        return render_template('forms/new_venue.html', form=form)
-    # on successful db insert, flash success
-    flash(f'Venue {request.form["name"]} was successfully listed!')
-    return redirect(url_for('index'))
-
+# edit venue
 
 @app.route('/venues/<int:venue_id>/edit', methods=['GET', 'POST'])
 def edit_venue(venue_id):
@@ -189,6 +199,8 @@ def artists():
     return render_template('pages/artists.html', artists=data)
 
 
+# create artist
+
 @app.route('/artists/create', methods=['GET'])
 def create_artist_form():
     form = ArtistForm()
@@ -198,12 +210,16 @@ def create_artist_form():
 @app.route('/artists/create', methods=['POST'])
 def create_artist_submission():
     form = ArtistForm()
+    if not form.validate_on_submit():
+        flash(f'Please insert valid data!')
+        return render_template("forms/new_artist.html", form=form)
+
     error = False
     try:
         artist = Artist()
-        # get attributes of artist instance.
+        # get attributes of the artist instance.
         attributes = dir(artist)
-        # Update the values of the instance attributes with the given values ->
+        # Update the values of the artist's attributes with the given values from the form ->
         # update_instance(instance_var, form_instance, [attributes]).
         artist = update_instance(artist, form, attributes)
         db.session.add(artist)

@@ -39,7 +39,7 @@ def index():
 #  Venues
 #  ----------------------------------------------------------------
 
-@app.route('/venues')
+@app.route('/venues/')
 def venues():
     # query all venues
     venues = db.session.query(Venue.id, Venue.name, Venue.city, Venue.state).all()
@@ -94,6 +94,7 @@ def show_venue(venue_id):
             upcoming_shows.append(temp)
         else:
             past_shows.append(temp)
+
     # add past and upcoming shows as attributes to the class object venue
     venue.past_shows = past_shows
     venue.upcoming_shows = upcoming_shows
@@ -136,32 +137,35 @@ def create_venue_submission():
     return redirect(url_for('index'))
 
 
-@app.route('/venues/<int:venue_id>/edit', methods=['GET'])
+@app.route('/venues/<int:venue_id>/edit', methods=['GET', 'POST'])
 def edit_venue(venue_id):
+    venue = db.session.query(Venue).get_or_404(venue_id)
     form = VenueForm()
-    venue = {
-        "id": 1,
-        "name": "The Musical Hop",
-        "genres": ["Jazz", "Reggae", "Swing", "Classical", "Folk"],
-        "address": "1015 Folsom Street",
-        "city": "San Francisco",
-        "state": "CA",
-        "phone": "123-123-1234",
-        "website": "https://www.themusicalhop.com",
-        "facebook_link": "https://www.facebook.com/TheMusicalHop",
-        "seeking_talent": True,
-        "seeking_description": "We are on the lookout for a local artist to play every two weeks. Please call us.",
-        "image_link": "https://images.unsplash.com/photo-1543900694-133f37abaaa5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"
-    }
-    # TODO: populate form with values from venue with ID <venue_id>
+
+    if request.method == 'POST' and form.validate_on_submit():
+        error = False
+        try:
+            # get attributes of venue instance.
+            attributes = dir(venue)
+            # update values of venue attributes using utils function -> create_instance(instance_var, form_instance,
+            # [attributes]).
+            venue = update_instance(venue, form, attributes)
+            db.session.commit()
+        except:
+            db.session.rollback()
+            error = True
+        finally:
+            db.session.close()
+        if not error:
+            # on successful db update, flash success.
+            flash('Venue ' + request.form['name'] + ' was updated successfully!')
+            return redirect(url_for('show_venue', venue_id=venue_id))
+        # on error db update, flash failed.
+        flash(f'server error occurred, {request.form["name"]} could was not updated')
+
+    # Populate venue form with the venue data using utils function -> set_form_data(form_instance, venue_object).
+    form = set_form_data(form, venue)
     return render_template('forms/edit_venue.html', form=form, venue=venue)
-
-
-@app.route('/venues/<int:venue_id>/edit', methods=['POST'])
-def edit_venue_submission(venue_id):
-    # TODO: take values from the form submitted, and update existing
-    # venue record with ID <venue_id> using the new attributes
-    return redirect(url_for('show_venue', venue_id=venue_id))
 
 
 @app.route('/venues/<venue_id>', methods=['DELETE'])
@@ -177,7 +181,7 @@ def delete_venue(venue_id):
 #  --------------------------------------------------------------------------------------------------------------------
 #  Artists
 #  --------------------------------------------------------------------------------------------------------------------
-@app.route('/artists')
+@app.route('/artists/')
 def artists():
     data = db.session.query(Artist.id, Artist.name).order_by(Artist.id).all()
     # TODO: Order the artists based on the number of the shows for each
@@ -185,13 +189,40 @@ def artists():
     return render_template('pages/artists.html', artists=data)
 
 
+@app.route('/artists/create', methods=['GET'])
+def create_artist_form():
+    form = ArtistForm()
+    return render_template('forms/new_artist.html', form=form)
+
+
+@app.route('/artists/create', methods=['POST'])
+def create_artist_submission():
+    form = ArtistForm()
+    error = False
+    try:
+        artist = Artist()
+        # get attributes of artist instance.
+        attributes = dir(artist)
+        # Update the values of the instance attributes with the given values ->
+        # update_instance(instance_var, form_instance, [attributes]).
+        artist = update_instance(artist, form, attributes)
+        db.session.add(artist)
+        db.session.commit()
+    except:
+        db.session.rollback()
+        error = True
+    finally:
+        db.session.close()
+    if error:
+        flash(f'server error occurred, {request.form["name"]} could not be listed')
+        return render_template("forms/new_artist.html", form=form)
+    # on successful db insert, flash success
+    flash('Artist ' + request.form['name'] + ' was successfully listed!')
+    return redirect(url_for('index'))
+
+
 @app.route('/artists/search/<search_term>', methods=['GET'])
 def search_artists(search_term):
-    """
-    search_artists gets any GET request for an artist search
-    :param search_term: String
-    :return: template -> search_artists.html
-    """
     response = db.session.query(Artist.id, Artist.name).filter(Artist.name.ilike(f'%{search_term}%')).all()
     return render_template('pages/search_artists.html', results=response, search_term=search_term,
                            num_res=len(response))
@@ -200,7 +231,7 @@ def search_artists(search_term):
 @app.route('/artists/search', methods=['POST'])
 def search_artists_receiver():
     """
-    search_artists_receiver receives any POST request for searching an artist
+    search_artists_receiver receives a POST request for searching an artist
     :return: redirects to search_artists function
     """
     search_term = request.form.get('search_term', '')
@@ -232,18 +263,20 @@ def show_artist(artist_id):
     return render_template('pages/show_artist.html', artist=artist)
 
 
-#  Update
-#  ----------------------------------------------------------------
+#  Update artist
 @app.route('/artists/<int:artist_id>/edit', methods=['GET', 'POST'])
 def edit_artist(artist_id):
+    # verify that the given id maps to an existing artist.
+    artist = db.session.query(Artist).get_or_404(artist_id)
     form = ArtistForm()
-    # verify that the given id maps to an existing artist
-    artist = db.session.queery(Artist).get_or_404(artist_id)
     if request.method == 'POST' and form.validate_on_submit():
         error = False
         try:
-            # create_instance(Object, form) creates an artist instance of Artist
-            artist = update_instance(artist, form)
+            # get attributes of artist instance.
+            attributes = dir(artist)
+            # update values of artist attributes using utils function -> update_instance(instance_var, form_instance,
+            # [attributes]).
+            artist = update_instance(artist, form, attributes)
             db.session.commit()
         except:
             db.session.rollback()
@@ -251,49 +284,20 @@ def edit_artist(artist_id):
         finally:
             db.session.close()
         if not error:
-            # on successful db update, flash success
+            # on successful db update, flash success.
             flash('Artist ' + request.form['name'] + ' was updated successfully!')
             return redirect(url_for('show_artist', artist_id=artist_id))
-        # on error db update, flash success
+        # on error db update, flash failed.
         flash(f'server error occurred, {request.form["name"]} could was not updated')
 
-    data = build_object(artist)
-    return render_template('forms/edit_artist.html', form=form, artist=data)
+    # populate form attributes' data with artist data
+    form = set_form_data(form, artist)
+    return render_template('forms/edit_artist.html', form=form, artist=artist)
 
 
-#  Create Artist
-#  ----------------------------------------------------------------
-
-@app.route('/artists/create', methods=['GET'])
-def create_artist_form():
-    form = ArtistForm()
-    return render_template('forms/new_artist.html', form=form)
-
-
-@app.route('/artists/create', methods=['POST'])
-def create_artist_submission():
-    form = ArtistForm()
-    error = False
-    try:
-        # create_instance(Object, form) creates an artist instance of Artist
-        artist = create_instance(Artist, form)
-        db.session.add(artist)
-        db.session.commit()
-    except:
-        db.session.rollback()
-        error = True
-    finally:
-        db.session.close()
-    if error:
-        flash(f'server error occurred, {request.form["name"]} could not be listed')
-        return render_template("forms/new_artist.html", form=form)
-    # on successful db insert, flash success
-    flash('Artist ' + request.form['name'] + ' was successfully listed!')
-    return redirect(url_for('index'))
-
-
+#  --------------------------------------------------------------------------------------------------------------------
 #  Shows
-#  ----------------------------------------------------------------
+#  --------------------------------------------------------------------------------------------------------------------
 
 @app.route('/shows')
 def shows():

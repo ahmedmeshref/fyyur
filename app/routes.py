@@ -190,7 +190,7 @@ def edit_venue(venue_id):
         flash(f'server error occurred, {request.form["name"]} could was not updated')
 
     # populate venue form with the existing venue data using utils function ->
-    # set_form_data(form_instance, venue_object).
+    # set_form_data(form_instance, venue_instance).
     form = set_form_data(form, venue)
     return render_template('forms/edit_venue.html', form=form, venue=venue)
 
@@ -347,7 +347,7 @@ def edit_artist(artist_id):
         # on error db update, flash failed.
         flash(f'server error occurred, {request.form["name"]} could was not updated')
 
-    # populate form attributes' data with artist data
+    # populate form attributes' data with artist instance data.
     form = set_form_data(form, artist)
     return render_template('forms/edit_artist.html', form=form, artist=artist)
 

@@ -27,9 +27,7 @@ def format_datetime(date, format='medium'):
 app.jinja_env.filters['datetime'] = format_datetime
 
 
-# ----------------------------------------------------------------------------#
-# Controllers.
-# ----------------------------------------------------------------------------#
+# home page
 
 @app.route('/')
 def index():
@@ -42,7 +40,7 @@ def index():
 
 @app.route('/venues/')
 def venues():
-    # query all venues ordered by their id's
+    # query all venues, order by venue id
     venues = db.session.query(Venue.id, Venue.name, Venue.city, Venue.state).order_by(Venue.id).all()
     # distribute venues to areas where areas -> {("City_1", "State_1"): [list_of_venues], ...}
     areas = {}
@@ -97,13 +95,16 @@ def create_venue_submission():
 
 @app.route('/venues/search/<search_term>', methods=['GET'])
 def search_venues(search_term):
-    # run a join query on Venues using lazy='joined' mode
+    # Join venues and shows and search form a given term
     results = db.session.query(Venue).options(joinedload(Venue.shows)).filter(
         Venue.name.ilike(f"%{search_term}%")).all()
+
     data = []
     for venue in results:
         temp = {"id": venue.id, "name": venue.name, "num_upcoming_shows": venue.shows}
         data.append(temp)
+
+    # form response object
     response = {
         "count": len(data),
         "data": data
@@ -119,13 +120,14 @@ def search_venues_receiver():
 
 @app.route('/venues/<int:venue_id>')
 def show_venue(venue_id):
-    # verify that the given id maps to an existing venue
+    # Verify that the given id maps to an existing venue.
     venue = db.session.query(Venue).get_or_404(venue_id)
-    # split genres string to an array of genres
+    # Split genres string to an array of genres.
     venue.genres = venue.genres.split(",")
+    # Join shows and artists to get all shows of the given venue.
     venue_shows = db.session.query(Show).options(joinedload(Show.artist, innerjoin=True)).filter(
         Show.venue_id == venue.id).all()
-    # classify the venue_shows' into past and upcoming shows based on their start time
+    # classify the venue_shows' into past and upcoming shows based on their start time.
     past_shows = []
     upcoming_shows = []
     for show in venue_shows:
@@ -137,7 +139,7 @@ def show_venue(venue_id):
         else:
             past_shows.append(temp)
 
-    # add past and upcoming shows as attributes to the class object venue
+    # add past and upcoming shows as attributes of the instance variable, venue.
     venue.past_shows = past_shows
     venue.upcoming_shows = upcoming_shows
     venue.past_shows_count = len(past_shows)
@@ -152,12 +154,13 @@ def edit_venue(venue_id):
     venue = db.session.query(Venue).get_or_404(venue_id)
     form = VenueForm()
 
+    # Validate a form on submission.
     if request.method == 'POST' and form.validate_on_submit():
         error = False
         try:
-            # get attributes of venue instance.
+            # Get attributes of venue instance.
             attributes = dir(venue)
-            # update values of venue attributes using utils function -> create_instance(instance_var, form_instance,
+            # Update values of venue attributes using utils function -> update_instance(instance_var, form_instance,
             # [attributes]).
             venue = update_instance(venue, form, attributes)
             db.session.commit()
@@ -173,19 +176,31 @@ def edit_venue(venue_id):
         # on error db update, flash failed.
         flash(f'server error occurred, {request.form["name"]} could was not updated')
 
-    # Populate venue form with the venue data using utils function -> set_form_data(form_instance, venue_object).
+    # Populate venue form with the existing venue data using utils function ->
+    # set_form_data(form_instance, venue_object).
     form = set_form_data(form, venue)
     return render_template('forms/edit_venue.html', form=form, venue=venue)
 
 
-@app.route('/venues/<venue_id>', methods=['DELETE'])
+@app.route('/venues/<venue_id>/delete', methods=['DELETE', 'GET'])
 def delete_venue(venue_id):
-    # TODO: Complete this endpoint for taking a venue_id, and using
-    # SQLAlchemy ORM to delete a record. Handle cases where the session commit could fail.
-
-    # BONUS CHALLENGE: Implement a button to delete a Venue on a Venue Page, have it so that
-    # clicking that button delete it from the db then redirect the user to the homepage
-    return None
+    venue = db.session.query(Venue).get_or_404(venue_id)
+    error = False
+    venue_name = venue.name
+    try:
+        db.session.delete(venue)
+        db.session.commit()
+    except:
+        error = True
+        db.session.rollback()
+    finally:
+        db.session.close()
+    if error:
+        flash(f"Error occurred. {venue_name} was not deleted.")
+        return redirect(url_for("show_venue", venue_id=venue_id))
+    else:
+        flash(f"{venue_name} was deleted successfully.")
+        return redirect(url_for("index"))
 
 
 #  --------------------------------------------------------------------------------------------------------------------
@@ -193,10 +208,10 @@ def delete_venue(venue_id):
 #  --------------------------------------------------------------------------------------------------------------------
 @app.route('/artists/')
 def artists():
-    data = db.session.query(Artist.id, Artist.name).order_by(Artist.id).all()
+    artists = db.session.query(Artist.id, Artist.name).order_by(Artist.id).all()
     # TODO: Order the artists based on the number of the shows for each
     # data.sort(key=lambda artist: db.session.query(Show).filter(Show.artist_id == artist.id).count())
-    return render_template('pages/artists.html', artists=data)
+    return render_template('pages/artists.html', artists=artists)
 
 
 # create artist
@@ -317,12 +332,10 @@ def edit_artist(artist_id):
 
 @app.route('/shows')
 def shows():
-    # displays list of shows at /shows
-    # TODO: replace with real venues data.
-    #       num_shows should be aggregated based on number of upcoming shows per venue.
+    # query all upcoming shows using inner join with both Venue and Show
     upcoming_shows = db.session.query(Show).options(joinedload(Show.artist, innerjoin=True),
                                                     joinedload(Show.venue, innerjoin=True)).filter(
-        Show.start_time >= datetime.utcnow()).all()
+        Show.start_time >= datetime.utcnow()).order_by(Show.start_time).all()
 
     data = []
     for show in upcoming_shows:

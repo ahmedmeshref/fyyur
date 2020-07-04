@@ -40,9 +40,10 @@ def index():
 
 @app.route('/venues/')
 def venues():
-    # query all venues, order by venue id
+    # query all venues, order by venue id.
     venues = db.session.query(Venue.id, Venue.name, Venue.city, Venue.state).order_by(Venue.id).all()
-    # distribute venues to areas where areas -> {("City_1", "State_1"): [list_of_venues], ...}
+
+    # distribute venues to areas where areas -> {("City_1", "State_1"): [list_of_venues], ...}.
     areas = {}
     for venue in venues:
         if (venue.city, venue.state) not in areas:
@@ -63,6 +64,7 @@ def create_venue_form():
 @app.route('/venues/create', methods=['POST'])
 def create_venue_submission():
     form = VenueForm()
+
     # if form is not valid, flash error.
     if not form.validate_on_submit():
         flash(f'Please insert valid data!')
@@ -83,7 +85,9 @@ def create_venue_submission():
         error = True
     finally:
         db.session.close()
+
     if error:
+        # on failure db insert, flash error.
         flash(f'Error, {request.form["name"]} could not be listed.')
         return render_template('forms/new_venue.html', form=form)
     # on successful db insert, flash success
@@ -95,7 +99,7 @@ def create_venue_submission():
 
 @app.route('/venues/search/<search_term>', methods=['GET'])
 def search_venues(search_term):
-    # Join venues and shows and search form a given term
+    # join venues and shows and search form a given term
     results = db.session.query(Venue).options(joinedload(Venue.shows)).filter(
         Venue.name.ilike(f"%{search_term}%")).all()
 
@@ -109,24 +113,32 @@ def search_venues(search_term):
         "count": len(data),
         "data": data
     }
+
     return render_template('pages/search_venues.html', results=response, search_term=search_term)
 
 
 @app.route('/venues/search', methods=['POST'])
 def search_venues_receiver():
+    """
+    search_venues_receiver receives a POST request for searching an venue with with a given search_term
+    :return: redirects to search_venues function
+    """
     search_term = request.form.get('search_term', '')
     return redirect(url_for("search_venues", search_term=search_term))
 
 
 @app.route('/venues/<int:venue_id>')
 def show_venue(venue_id):
-    # Verify that the given id maps to an existing venue.
+    # verify that the given id maps to an existing venue.
     venue = db.session.query(Venue).get_or_404(venue_id)
-    # Split genres string to an array of genres.
+
+    # split genres string to an array of genres.
     venue.genres = venue.genres.split(",")
-    # Join shows and artists to get all shows of the given venue.
+
+    # join shows and artists to get all shows of the given venue.
     venue_shows = db.session.query(Show).options(joinedload(Show.artist, innerjoin=True)).filter(
         Show.venue_id == venue.id).all()
+
     # classify the venue_shows' into past and upcoming shows based on their start time.
     past_shows = []
     upcoming_shows = []
@@ -144,6 +156,7 @@ def show_venue(venue_id):
     venue.upcoming_shows = upcoming_shows
     venue.past_shows_count = len(past_shows)
     venue.upcoming_shows_count = len(upcoming_shows)
+
     return render_template('pages/show_venue.html', venue=venue)
 
 
@@ -154,13 +167,13 @@ def edit_venue(venue_id):
     venue = db.session.query(Venue).get_or_404(venue_id)
     form = VenueForm()
 
-    # Validate a form on submission.
+    # validate a form on submission.
     if request.method == 'POST' and form.validate_on_submit():
         error = False
         try:
-            # Get attributes of venue instance.
+            # get attributes of venue instance.
             attributes = dir(venue)
-            # Update values of venue attributes using utils function -> update_instance(instance_var, form_instance,
+            # update values of venue attributes using utils function -> update_instance(instance_var, form_instance,
             # [attributes]).
             venue = update_instance(venue, form, attributes)
             db.session.commit()
@@ -176,7 +189,7 @@ def edit_venue(venue_id):
         # on error db update, flash failed.
         flash(f'server error occurred, {request.form["name"]} could was not updated')
 
-    # Populate venue form with the existing venue data using utils function ->
+    # populate venue form with the existing venue data using utils function ->
     # set_form_data(form_instance, venue_object).
     form = set_form_data(form, venue)
     return render_template('forms/edit_venue.html', form=form, venue=venue)
@@ -184,9 +197,11 @@ def edit_venue(venue_id):
 
 @app.route('/venues/<venue_id>/delete', methods=['DELETE', 'GET'])
 def delete_venue(venue_id):
+    # verify a given id.
     venue = db.session.query(Venue).get_or_404(venue_id)
-    error = False
     venue_name = venue.name
+
+    error = False
     try:
         db.session.delete(venue)
         db.session.commit()
@@ -195,6 +210,7 @@ def delete_venue(venue_id):
         db.session.rollback()
     finally:
         db.session.close()
+
     if error:
         flash(f"Error occurred. {venue_name} was not deleted.")
         return redirect(url_for("show_venue", venue_id=venue_id))
@@ -208,6 +224,7 @@ def delete_venue(venue_id):
 #  --------------------------------------------------------------------------------------------------------------------
 @app.route('/artists/')
 def artists():
+    # Query all artists ordered by their id.
     artists = db.session.query(Artist.id, Artist.name).order_by(Artist.id).all()
     # TODO: Order the artists based on the number of the shows for each
     # data.sort(key=lambda artist: db.session.query(Show).filter(Show.artist_id == artist.id).count())
@@ -244,13 +261,18 @@ def create_artist_submission():
         error = True
     finally:
         db.session.close()
+
     if error:
+        # on failure db insert, flash error occurred
         flash(f'server error occurred, {request.form["name"]} could not be listed')
         return render_template("forms/new_artist.html", form=form)
-    # on successful db insert, flash success
-    flash('Artist ' + request.form['name'] + ' was successfully listed!')
-    return redirect(url_for('index'))
+    else:
+        # on successful db insert, flash success
+        flash('Artist ' + request.form['name'] + ' was successfully listed!')
+        return redirect(url_for('index'))
 
+
+# search artist
 
 @app.route('/artists/search/<search_term>', methods=['GET'])
 def search_artists(search_term):
@@ -271,13 +293,16 @@ def search_artists_receiver():
 
 @app.route('/artists/<int:artist_id>', methods=['GET'])
 def show_artist(artist_id):
-    # verify that the given id maps to an existing artist
+    # Verify that the given id maps to an existing artist.
     artist = db.session.query(Artist).get_or_404(artist_id)
 
+    # Transfer genres string to a list.
     artist.genres = artist.genres.split(",")
-    # getting the artist's shows -> Time Complexity: O(m) where m is the number of shows
+
+    # Get all artist's shwos.
     artist_shows = artist.shows
-    # classifying shows based on the start_time -> Time Complexity: O(m)
+
+    # Classifying shows based on the start_time.
     upcoming_shows = []
     past_shows = []
     for show in artist_shows:
@@ -297,9 +322,10 @@ def show_artist(artist_id):
 #  Update artist
 @app.route('/artists/<int:artist_id>/edit', methods=['GET', 'POST'])
 def edit_artist(artist_id):
-    # verify that the given id maps to an existing artist.
+    # Verify that the given id maps to an existing artist.
     artist = db.session.query(Artist).get_or_404(artist_id)
     form = ArtistForm()
+
     if request.method == 'POST' and form.validate_on_submit():
         error = False
         try:
@@ -346,8 +372,11 @@ def shows():
                 "artist_image_link": show.artist.image_link,
                 "start_time": show.start_time}
         data.append(temp)
+
     return render_template('pages/shows.html', shows=data)
 
+
+# create show
 
 @app.route('/shows/create')
 def create_shows():
@@ -369,7 +398,7 @@ def create_show_submission():
         # get all attributes of the show instance.
         attributes = dir(show)
         print(attributes)
-        # Update the values of the show's attributes with the given values from the form ->
+        # update the values of the show's attributes with the given values from the form ->
         # update_instance(instance_var, form_instance, [attributes]).
         show = update_instance(show, form, attributes)
         db.session.add(show)
@@ -379,11 +408,15 @@ def create_show_submission():
         db.session.rollback()
     finally:
         db.session.close()
+
     if error:
+        # on failure, flash error message.
         flash('An error occurred. Show could not be listed.')
         return render_template('forms/new_show.html', form=form)
-    flash('Show was successfully listed!')
-    return redirect(url_for("index"))
+    else:
+        # on success, flask success message and rredirect to home page.
+        flash('Show was successfully listed!')
+        return redirect(url_for("index"))
 
 
 @app.errorhandler(404)

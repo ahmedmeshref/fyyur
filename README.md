@@ -23,10 +23,10 @@ Our tech stack will include:
 
   ```sh
   ├── README.md
-  ├── run.py *** main file for running the flaks server  
+  ├── run.py -> main file for running the flaks server  
   ├── error.log
-  ├── requirements.txt *** The dependencies we need to install with "pip3 install -r requirements.txt"
-  └── app  main package driver for src files.
+  ├── requirements.txt -> The dependencies we need to install with "pip3 install -r requirements.txt"
+  └── app -> main package driver for src files.
           ├── static
           │   ├── css 
           │   ├── font
@@ -38,11 +38,11 @@ Our tech stack will include:
           |   ├── forms
           |   ├── layouts
           |   └── pages
-          ├── config.py *** Database URLs, CSRF generation, etc.
-          ├── models.py *** Database tables.
-          ├── forms.py *** WTF forms.
-          ├── routes.py *** all flask functionality.
-          └── utils.py *** helper methods.
+          ├── config.py -> Database URLs, CSRF generation, etc.
+          ├── models.py -> Database tables.
+          ├── forms.py -> WTF forms.
+          ├── routes.py -> all flask functionality.
+          └── utils.py -> helper methods.
   ```
 
 Overall:

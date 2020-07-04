@@ -358,7 +358,8 @@ def edit_artist(artist_id):
 
 @app.route('/shows')
 def shows():
-    # query all upcoming shows using inner join with both Venue and Show
+    # query all upcoming shows using inner join with both Venue and Show and sort them by date from the nearst to
+    # furthest.
     upcoming_shows = db.session.query(Show).options(joinedload(Show.artist, innerjoin=True),
                                                     joinedload(Show.venue, innerjoin=True)).filter(
         Show.start_time >= datetime.utcnow()).order_by(Show.start_time).all()

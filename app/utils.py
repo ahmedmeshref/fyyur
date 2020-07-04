@@ -1,7 +1,6 @@
 from flask import request, abort
 from app import db
 
-
 def update_instance(instance_var, form, attrs):
     for attr in attrs:
         if attr == 'genres':
@@ -9,7 +8,7 @@ def update_instance(instance_var, form, attrs):
         else:
             attr_val = request.form.get(attr)
         # Update attributes with new updated value if a new value is given
-        if attr_val:
+        if attr_val and getattr(instance_var, attr) != attr_val:
             setattr(instance_var, attr, attr_val)
     return instance_var
 

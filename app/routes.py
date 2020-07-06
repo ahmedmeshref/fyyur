@@ -42,8 +42,8 @@ def index():
 @app.route('/venues/')
 def venues():
     # query all venues, order by the total number of shows at each venue.
-    venues = db.session.query(Venue.id, Venue.name, Venue.city, Venue.state).outerjoin(Show).group_by(Venue.id).order_by(
-        db.desc(func.count(Show.id))).all()
+    venues = db.session.query(Venue.id, Venue.name, Venue.city, Venue.state).outerjoin(Show).group_by(
+        Venue.id).order_by(db.desc(func.count(Show.id))).all()
 
     # distribute venues to areas where areas -> {("City_1", "State_1"): [list_of_venues], ...}.
     areas = {}

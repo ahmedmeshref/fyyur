@@ -3,7 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="8d70787b-3da6-40d7-8502-35cfe37f3906" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/pages/home.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/pages/home.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/pages/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/pages/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +97,9 @@
       <workItem from="1593697517186" duration="380000" />
       <workItem from="1593707868626" duration="37430000" />
       <workItem from="1593881888643" duration="749000" />
-      <workItem from="1594001359014" duration="2667000" />
+      <workItem from="1594001359014" duration="3217000" />
+      <workItem from="1594050814825" duration="45000" />
+      <workItem from="1594077539197" duration="836000" />
     </task>
     <servers />
   </component>
@@ -105,10 +111,10 @@
       <screen x="0" y="0" width="1500" height="1000" />
     </state>
     <state x="202" y="145" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1500.1000@0.0.1500.1000" timestamp="1593646441725" />
-    <state x="479" y="196" key="FileChooserDialogImpl" timestamp="1593882640451">
+    <state x="479" y="196" key="FileChooserDialogImpl" timestamp="1594050858874">
       <screen x="0" y="0" width="1500" height="1000" />
     </state>
-    <state x="479" y="196" key="FileChooserDialogImpl/0.0.1500.1000@0.0.1500.1000" timestamp="1593882640451" />
+    <state x="479" y="196" key="FileChooserDialogImpl/0.0.1500.1000@0.0.1500.1000" timestamp="1594050858874" />
     <state x="128" y="58" key="SettingsEditor" timestamp="1593882597079">
       <screen x="0" y="0" width="1500" height="1000" />
     </state>

@@ -7,7 +7,7 @@ from app.forms import *
 from app.utils import *
 from datetime import datetime
 from sqlalchemy.orm import joinedload
-from sqlalchemy import join, func
+from sqlalchemy import join, func, outerjoin
 from time import time
 
 
@@ -41,8 +41,9 @@ def index():
 
 @app.route('/venues/')
 def venues():
-    # query all venues, order by venue id.
-    venues = db.session.query(Venue.id, Venue.name, Venue.city, Venue.state).order_by(Venue.id).all()
+    # query all venues, order by the total number of shows at each venue.
+    venues = db.session.query(Venue.id, Venue.name, Venue.city, Venue.state).outerjoin(Show).group_by(Venue.id).order_by(
+        db.desc(func.count(Show.id))).all()
 
     # distribute venues to areas where areas -> {("City_1", "State_1"): [list_of_venues], ...}.
     areas = {}
@@ -226,7 +227,7 @@ def delete_venue(venue_id):
 @app.route('/artists/')
 def artists():
     # Query all artists ordered by their number of showss.
-    artists = db.session.query(Artist.id, Artist.name).join(Show).group_by(Artist.id).order_by(
+    artists = db.session.query(Artist.id, Artist.name).outerjoin(Show).group_by(Artist.id).order_by(
         db.desc(func.count(Show.id))).all()
     return render_template('pages/artists.html', artists=artists)
 

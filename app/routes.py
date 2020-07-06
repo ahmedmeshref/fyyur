@@ -7,6 +7,7 @@ from app.forms import *
 from app.utils import *
 from datetime import datetime
 from sqlalchemy.orm import joinedload
+from sqlalchemy import join, func
 from time import time
 
 
@@ -224,10 +225,9 @@ def delete_venue(venue_id):
 #  --------------------------------------------------------------------------------------------------------------------
 @app.route('/artists/')
 def artists():
-    # Query all artists ordered by their id.
-    artists = db.session.query(Artist.id, Artist.name).order_by(Artist.id).all()
-    # TODO: Order the artists based on the number of the shows for each
-    # data.sort(key=lambda artist: db.session.query(Show).filter(Show.artist_id == artist.id).count())
+    # Query all artists ordered by their number of showss.
+    artists = db.session.query(Artist.id, Artist.name).join(Show).group_by(Artist.id).order_by(
+        db.desc(func.count(Show.id))).all()
     return render_template('pages/artists.html', artists=artists)
 
 

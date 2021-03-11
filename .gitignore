@@ -66,6 +66,6 @@ target/
 migrations/
 
 
-.fyyur/
-.vscode/
+fyyur/
 .idea/
+
